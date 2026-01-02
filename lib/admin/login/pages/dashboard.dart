@@ -4,10 +4,11 @@ import 'package:flutter/material.dart';
 import 'employeelist.dart';
 import 'leaverequest.dart';
 import 'leavebalance.dart';
-import 'daily_attendance_view.dart';  // For Attendance
-import 'monthly_report.dart';         // For Reports
-import 'payslip_management.dart';     // For Payroll (Ensure class name matches)
-import 'system_config.dart';          // For Settings
+import 'daily_attendance_view.dart';  
+import 'monthly_report.dart';         
+import 'payslip_management.dart';     
+import 'system_config.dart';          
+import 'manual_attendance.dart'; // <--- NEW IMPORT ADDED
 
 class AdminDashboard extends StatefulWidget {
   const AdminDashboard({super.key});
@@ -26,18 +27,19 @@ class _AdminDashboardState extends State<AdminDashboard> {
       case 'Employees':
         return const EmployeeList();
       case 'Attendance':
-        return const DailyAttendancePage(); // Linked to daily_attendance_view.dart
+        return const DailyAttendancePage();
+      case 'Manual Entry': // <--- NEW CASE ADDED
+        return const ManualAttendancePage(); 
       case 'Leave Requests':
         return const LeaveRequestPage();
       case 'Leave Balance':
         return const LeaveBalancePage();
       case 'Reports':
-        return const MonthlyReportPage();   // Linked to monthly_report.dart
+        return const MonthlyReportPage();   
       case 'Payroll':
-        // NOTE: Ensure your payslip_management.dart has a class named PayslipManagementPage
         return const PayslipManagementPage(); 
       case 'Settings':
-        return const SystemConfigurationPage(); // Linked to system_config.dart
+        return const SystemConfigurationPage(); 
       case 'Dashboard':
       default:
         return _dashboardView();
@@ -52,11 +54,10 @@ class _AdminDashboardState extends State<AdminDashboard> {
           // ================== SIDEBAR ==================
           Container(
             width: 250,
-            color: const Color(0xFF000080), // Deep Blue Background
+            color: const Color(0xFF000080), 
             child: Column(
               children: [
                 const SizedBox(height: 40),
-                // Logo Area
                 const ListTile(
                   leading: Icon(Icons.business_center, color: Colors.white),
                   title: Text(
@@ -66,10 +67,11 @@ class _AdminDashboardState extends State<AdminDashboard> {
                 ),
                 const SizedBox(height: 20),
                 
-                // 3. SIDEBAR BUTTONS (Must match the 'case' names above exactly)
+                // 3. SIDEBAR BUTTONS
                 _navItem(Icons.home, 'Dashboard'),
                 _navItem(Icons.people, 'Employees'),
                 _navItem(Icons.access_time, 'Attendance'),
+                _navItem(Icons.edit_calendar, 'Manual Entry'), // <--- NEW BUTTON ADDED
                 _navItem(Icons.calendar_today, 'Leave Requests'),
                 _navItem(Icons.account_balance_wallet, 'Leave Balance'),
                 _navItem(Icons.assignment, 'Reports'),
@@ -86,8 +88,8 @@ class _AdminDashboardState extends State<AdminDashboard> {
           // ================== MAIN CONTENT AREA ==================
           Expanded(
             child: Container(
-              color: const Color(0xFFE5EAEF), // Light Grey Background
-              child: _buildMainContent(), // This renders the page selected in the switch
+              color: const Color(0xFFE5EAEF), 
+              child: _buildMainContent(), 
             ),
           ),
         ],
@@ -110,7 +112,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
       ),
       onTap: () {
         setState(() {
-          _activePage = title; // This triggers the screen update
+          _activePage = title; 
         });
       },
     );
@@ -127,7 +129,6 @@ class _AdminDashboardState extends State<AdminDashboard> {
           const Text('Welcome back, Admin', style: TextStyle(color: Colors.grey)),
           const SizedBox(height: 32),
           
-          // Summary Cards
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -139,7 +140,6 @@ class _AdminDashboardState extends State<AdminDashboard> {
           ),
           const SizedBox(height: 32),
           
-          // Pending Requests Section
           Container(
             padding: const EdgeInsets.all(24),
             decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(12)),

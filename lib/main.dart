@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+
+// Import your page files
 import 'admin/login/pages/dashboard.dart'; 
 import 'admin/login/pages/register.dart'; 
-import 'admin/login/pages/forgotpassword.dart'; // IMPORT THE NEW FILE HERE
+import 'admin/login/pages/forgotpassword.dart';
+import 'admin/login/pages/manual_attendance.dart'; // <--- Added this import
 
 void main() {
   runApp(const MyApp());
@@ -18,7 +21,10 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primaryColor: const Color(0xFF0B1D4D),
         scaffoldBackgroundColor: const Color(0xFFF0F4F7),
+        // Applying a consistent font style across the app
+        fontFamily: 'Inter', 
       ),
+      // The app starts at the Login Page
       home: const LoginPage(),
     );
   }
@@ -52,6 +58,7 @@ class _LoginPageState extends State<LoginPage> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
+                // Logo
                 Image.asset('assets/datasolutions_logo.jpg', height: 50,
                     errorBuilder: (context, error, stackTrace) => 
                     const Icon(Icons.business, size: 50, color: Color(0xFF0B1D4D))),
@@ -75,7 +82,6 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     const Text('Remember my preference', style: TextStyle(fontSize: 13)),
                     const Spacer(),
-                    // UPDATED: Navigate to ForgotPasswordPage
                     TextButton(
                       onPressed: () {
                         Navigator.push(
@@ -85,13 +91,14 @@ class _LoginPageState extends State<LoginPage> {
                       }, 
                       child: const Text(
                         'Forgot Password?', 
-                        style: TextStyle(fontSize: 13, color: Color(0xFF5C6BC0)) // Slight purple tint per design
+                        style: TextStyle(fontSize: 13, color: Color(0xFF5C6BC0))
                       )
                     ),
                   ],
                 ),
                 const SizedBox(height: 20),
                 
+                // SIGN IN BUTTON
                 SizedBox(
                   width: double.infinity,
                   height: 50,
@@ -101,7 +108,11 @@ class _LoginPageState extends State<LoginPage> {
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                     ),
                     onPressed: () {
-                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const AdminDashboard()));
+                      // Navigate to the Dashboard which now contains your Manual Attendance
+                      Navigator.pushReplacement(
+                        context, 
+                        MaterialPageRoute(builder: (context) => const AdminDashboard())
+                      );
                     },
                     child: const Text('Sign In', style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold)),
                   ),
@@ -142,13 +153,25 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Widget _buildLabel(String label) {
-    return Align(alignment: Alignment.centerLeft, child: Padding(padding: const EdgeInsets.only(bottom: 8), child: Text(label, style: const TextStyle(fontWeight: FontWeight.w500))));
+    return Align(
+      alignment: Alignment.centerLeft, 
+      child: Padding(
+        padding: const EdgeInsets.only(bottom: 8), 
+        child: Text(label, style: const TextStyle(fontWeight: FontWeight.w500))
+      )
+    );
   }
 
   Widget _buildTextField({bool obscure = false}) {
     return Container(
       decoration: BoxDecoration(color: const Color(0xFFF0F2F5), borderRadius: BorderRadius.circular(8)),
-      child: TextField(obscureText: obscure, decoration: const InputDecoration(border: InputBorder.none, contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 14))),
+      child: TextField(
+        obscureText: obscure, 
+        decoration: const InputDecoration(
+          border: InputBorder.none, 
+          contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 14)
+        )
+      ),
     );
   }
 }
