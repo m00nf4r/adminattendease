@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:fl_chart/fl_chart.dart'; // Ensure you have flutter pub add fl_chart
+import 'package:fl_chart/fl_chart.dart'; // Ensure fl_chart is in pubspec.yaml
+import 'reportsearch.dart'; // IMPORT THE NEW PAGE HERE
 
 class MonthlyReportPage extends StatelessWidget {
   const MonthlyReportPage({super.key});
@@ -20,7 +21,9 @@ class MonthlyReportPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   // Search Section
-                  _buildSearchSection(),
+                  _buildSearchSection(
+                    context,
+                  ), // Pass context to enable navigation
                   const SizedBox(height: 30),
 
                   // Summary Statistics Grid
@@ -76,15 +79,18 @@ class MonthlyReportPage extends StatelessWidget {
     );
   }
 
-  Widget _buildSearchSection() {
+  Widget _buildSearchSection(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
-        // FIXED: Replaced withOpacity with withValues for newer Flutter versions
+        // FIXED: Replaced withOpacity with withValues
         boxShadow: [
-          BoxShadow(color: Colors.black.withValues(alpha: 0.05), blurRadius: 10),
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.05),
+            blurRadius: 10,
+          ),
         ],
       ),
       child: Column(
@@ -102,8 +108,18 @@ class MonthlyReportPage extends StatelessWidget {
               const SizedBox(width: 20),
               _buildDropdown("Date", isDate: true),
               const Spacer(),
+
+              // --- SEARCH BUTTON (UPDATED) ---
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  // Navigate to the Report Search Result Page
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const ReportSearchPage(),
+                    ),
+                  );
+                },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFF000080),
                   padding: const EdgeInsets.symmetric(
